@@ -1,11 +1,12 @@
-import Image from 'next/image';
-import { Htag } from '../components';
+import { Button, Htag } from '../components';
 
 export default function Home() {
 
   return (
-    <div>
+    <>
       <Htag tag='h1'>Курсы по Photoshop</Htag>
-    </div>
+      <Button appearance='primary' arrow='down'>Узнать подробнее</Button>
+      <Button appearance='ghost' arrow='right'>Читать отзывы</Button>
+    </>
   );
 }
