@@ -23,7 +23,9 @@ export const TopPageComponent = ({ firstCategory, page, products }: TopPageCompo
         {page.advantages && page.advantages.length > 0 &&
             (<Advantages advantages={page.advantages} />)
         }
-        {page.seoText && <P>{page.seoText}</P>}
+        {page.seoText && <div className={styles.seo} dangerouslySetInnerHTML={{ __html: page.seoText }}/>}
+        {/* !!! Если будет неизвестно откуда прилетит сео текст, следует удалить аттрибут
+        dangerouslySetInnerHTML и использовать библиотеку html-react-parser !!! */}
         {page.tags && page.tags.length > 0 && (
             <>
                 <Htag tag='h2'>Получаемые навыки</Htag>
