@@ -11,6 +11,7 @@ export interface Blog {
 
 export interface ReviewModel {
   _id: string;
+  title: string;
   name: string;
   description: string;
   rating: number;
