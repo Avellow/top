@@ -6,22 +6,77 @@ import {Rating} from "../Rating/Rating";
 import {Textarea} from "../Textarea/Textarea";
 import {Button} from "../Button/Button";
 import CloseIcon from './close.svg';
+import {useForm, Controller} from "react-hook-form";
+import {IReviewForm} from "./ReviewForm.interface";
 
 export const ReviewForm = ({productId, className, ...props}: ReviewFormProps): JSX.Element => {
 
+    const { register, control, handleSubmit, formState: { errors } } = useForm<IReviewForm>();
+
+    const onSubmit = (data: IReviewForm) => {
+        console.log(data);
+    };
+
     return (
-        <>
+        <form onSubmit={ handleSubmit(onSubmit) }>
             <div
                 className={cn(styles.reviewForm, className)}
                 {...props}
             >
-                <Input placeholder='Имя'/>
-                <Input placeholder='Заголовок отзыва' className={styles.title}/>
+                <Input
+                    placeholder='Имя'
+                    {...register('name', {
+                        required: {
+                            value: true,
+                            message: 'Заполните имя'
+                        }
+                    })}
+                    error={errors.name}
+                />
+                <Input
+                    placeholder='Заголовок отзыва'
+                    className={styles.title}
+                    {...register('title', {
+                        required: {
+                            value: true,
+                            message: 'Заполните заголовок'
+                        }
+                    })}
+                    error={errors.title}
+                />
                 <div className={styles.rating}>
                     <span>Оценка:</span>
-                    <Rating rating={0}/>
+                    <Controller
+                        control={control}
+                        name='rating'
+                        rules={{
+                            required: {
+                                value: true,
+                                message: 'Выберете рейтинг'
+                            }
+                        }}
+                        render={({ field }) => (
+                            <Rating
+                                ref={field.ref}
+                                isEditable
+                                rating={field.value}
+                                setRating={field.onChange}
+                                error={errors.rating}
+                            />
+                        )}
+                    />
                 </div>
-                <Textarea placeholder='Текст отзыва' className={styles.description}/>
+                <Textarea
+                    placeholder='Текст отзыва'
+                    className={styles.description}
+                    {...register('description', {
+                        required: {
+                            value: true,
+                            message: 'Заполните описание'
+                        }
+                    })}
+                    error={errors.description}
+                />
                 <div className={styles.submit}>
                     <Button appearance='primary'>Отправить</Button>
                     <span
@@ -35,6 +90,6 @@ export const ReviewForm = ({productId, className, ...props}: ReviewFormProps): J
                 </div>
                 <CloseIcon className={styles.close} />
             </div>
-        </>
+        </form>
     );
 };
