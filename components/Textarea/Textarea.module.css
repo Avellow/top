@@ -1,0 +1,37 @@
+.textarea {
+	padding: 7px 12px;
+	width: 100%;
+	min-height: 76px;
+
+	color: var(--black);
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
+
+	font-size: 16px;
+	line-height: 1.37;
+
+	outline-color: var(--primary);
+	background-color: var(--white);
+
+	font-family: var(--font-family);
+}
+
+.textarea::placeholder {
+	color: var(--grey);
+}
+
+.error {
+	border: 1px solid var(--red);
+}
+
+.textareaWrapper {
+	position: relative;
+}
+
+.errorMessage {
+	position: absolute;
+	bottom: -15px;
+	left: 0;
+	color: var(--red);
+}

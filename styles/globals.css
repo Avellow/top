@@ -21,12 +21,13 @@ a {
 	--black: #3B434E;
 	--primary: #7653FC;
 	--primary-hover: #442da2;
-	--grey: #787D85;
+	--grey: #A4A4A4;
 	--grey-light: #EBEBEB;
 	--grey-dark: #787D85;
 	--green: #1DC37E;
 	--green-light: #C8F8E4;
 	--red: #FC836D;
+	--red-light: #ffb2a4;
 	--white: white;
 	--font-family: "Noto Sans", sans-serif;
 }
