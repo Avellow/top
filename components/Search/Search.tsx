@@ -40,6 +40,7 @@ export const Search = ({className, ...props}: SearchProps): JSX.Element => {
                 onChange={ handleChange }
                 value={ search }
                 onKeyDown={ handleKeyDown }
+                customPadding='7px 35px 7px 12px'
             />
             <Button
                 appearance='primary'

@@ -1,6 +1,6 @@
 .input {
 	padding: 7px 12px;
-
+	width: 100%;
 	color: var(--black);
 	border: none;
 	border-radius: 5px;
@@ -16,7 +16,7 @@
 }
 
 .input::placeholder {
-	color: var(--grey)
+	color: var(--grey);
 }
 
 .error {
