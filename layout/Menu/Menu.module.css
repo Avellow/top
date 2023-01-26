@@ -33,7 +33,6 @@
 
   font-weight: 300;
   font-size: 12px;
-  line-height: 1.33;
 }
 
 .secondBlock {
@@ -52,13 +51,14 @@
   display: block;
   font-weight: 500;
   font-size: 14px;
-  line-height: 1.4;
 
   color: var(--grey-dark);
 
   cursor: pointer;
 
   margin-bottom: 10px;
+
+  outline-offset: -1px;
 }
 
 .thirdLevelActive,
