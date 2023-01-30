@@ -1,20 +1,37 @@
 import cn from 'classnames';
-import {ForwardedRef, forwardRef, KeyboardEvent, useEffect, useState} from 'react';
+import {ForwardedRef, forwardRef, KeyboardEvent, useEffect, useRef, useState} from 'react';
 import { RatingProps } from './Rating.props';
 import StarIcon from './star.svg';
 import styles from './Rating.module.css';
 
 export const Rating = forwardRef((
-    { isEditable = false, error, rating, setRating, ...props }: RatingProps,
+    { isEditable = false, error, rating, setRating, tabIndex, ...props }: RatingProps,
     ref: ForwardedRef<HTMLDivElement>
 ): JSX.Element => {
 
   const [ratingArray, setRatingArray] = useState<JSX.Element[]>(new Array(5).fill(<></>));
+  const ratingArrayRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     constructRating(rating);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rating]);
+  }, [rating, tabIndex]);
+
+  const computeFocus = (r: number, i: number): number => {
+    if (!isEditable) {
+      return -1;
+    }
+
+    if (!rating && i == 0) {
+      return tabIndex ?? 0;
+    }
+
+    if (rating == i + 1) {
+      return tabIndex ?? 0;
+    }
+
+    return -1;
+  };
 
   const constructRating = (currentRating: number) => {
     const updatedArray = ratingArray.map((r: JSX.Element, i: number) => {
@@ -32,11 +49,12 @@ export const Rating = forwardRef((
           onMouseLeave={() => changeDisplay(rating)}
 
           onClick={() => onClick(nStar)}
+
+          tabIndex={computeFocus(rating, i)}
+          onKeyDown={ handleKey }
+          ref={(r) => ratingArrayRef.current?.push(r)}
         >
-          <StarIcon
-            tabIndex={isEditable ? 0 : -1}
-            onKeyDown={(e: KeyboardEvent<SVGAElement>) => spaceHandle(nStar, e)}
-          />
+          <StarIcon />
         </span>
       );
     });
@@ -59,11 +77,24 @@ export const Rating = forwardRef((
     setRating(i);
   };
 
-  const spaceHandle = (i: number, e: KeyboardEvent<SVGAElement>) => {
-    if (e.code != 'Space' || !setRating) {
+  const handleKey = (e: KeyboardEvent<HTMLSpanElement>) => {
+    if (!isEditable || !setRating) {
       return;
     }
-    setRating(i);
+    if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
+      e.preventDefault();
+      if (!rating) {
+        setRating(1);
+      } else {
+        setRating(rating < 5 ? (rating + 1) : 5);
+      }
+      ratingArrayRef.current[rating]?.focus();
+    }
+    if (e.code == 'ArrowLeft' || e.code == 'ArrowDown') {
+      e.preventDefault();
+      setRating(rating > 1 ? (rating - 1) : 1);
+      ratingArrayRef.current[rating - 2]?.focus();
+    }
   };
 
   return (

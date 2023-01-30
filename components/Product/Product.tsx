@@ -31,6 +31,7 @@ export const Product = motion(forwardRef((
             behavior: 'smooth',
             block: 'start'
         });
+        reviewRef.current?.focus();
     };
 
     const variants = {
@@ -68,9 +69,9 @@ export const Product = motion(forwardRef((
                 <div className={styles.priceTitle}>цена</div>
                 <div className={styles.creditTitle}>кредит</div>
                 <div className={styles.rateTitle}>
-                    <span className={styles.reviewLink} onClick={scrollToReview}>
+                    <a href='#ref' className={styles.reviewLink} onClick={scrollToReview}>
                         {product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
-                    </span>
+                    </a>
                 </div>
                 <Divider className={styles.hr}/>
                 <div className={styles.description}>{product.description}</div>
@@ -113,6 +114,7 @@ export const Product = motion(forwardRef((
                     color='blue'
                     className={cn(styles.reviews)}
                     ref={reviewRef}
+                    tabIndex={ isReviewOpened ? 0 : -1 }
                 >
                     {product.reviews.map(r => (
                         <div key={r._id}>
@@ -120,7 +122,7 @@ export const Product = motion(forwardRef((
                             <Divider/>
                         </div>
                     ))}
-                    <ReviewForm productId={product._id}/>
+                    <ReviewForm productId={product._id} isOpened={isReviewOpened} />
                 </Card>
             </motion.div>
         </div>
