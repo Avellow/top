@@ -10,12 +10,19 @@ import {useForm, Controller} from "react-hook-form";
 import {IReviewForm, IReviewSentResponse} from "./ReviewForm.interface";
 import axios from "axios";
 import {API} from "../../helpers/api";
-import {useState} from "react";
+import {useState, KeyboardEvent} from "react";
 
 export const ReviewForm = ({productId, isOpened, className, ...props}: ReviewFormProps): JSX.Element => {
-    const { register, control, handleSubmit, formState: { errors }, reset } = useForm<IReviewForm>();
+    const { register, control, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<IReviewForm>();
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
     const [error, setError] = useState<string>();
+
+    const handleCloseNotification = (e: KeyboardEvent<HTMLButtonElement>) => {
+        if (e.code == 'Space' || e.code == 'Enter') {
+            setError(undefined);
+            setIsSuccess(false);
+        }
+    };
 
     const onSubmit = async (formData: IReviewForm) => {
         try {
@@ -50,6 +57,7 @@ export const ReviewForm = ({productId, isOpened, className, ...props}: ReviewFor
                     })}
                     error={errors.name}
                     tabIndex={isOpened ? 0 : -1 }
+                    aria-invalid={!!errors.name}
                 />
                 <Input
                     placeholder='Заголовок отзыва'
@@ -62,6 +70,7 @@ export const ReviewForm = ({productId, isOpened, className, ...props}: ReviewFor
                     })}
                     error={errors.title}
                     tabIndex={isOpened ? 0 : -1 }
+                    aria-invalid={!!errors.title}
                 />
                 <div className={styles.rating}>
                     <span>Оценка:</span>
@@ -97,23 +106,44 @@ export const ReviewForm = ({productId, isOpened, className, ...props}: ReviewFor
                     })}
                     error={errors.description}
                     tabIndex={isOpened ? 0 : -1 }
+                    aria-label='Текст отзыва'
                 />
                 <div className={styles.submit}>
-                    <Button appearance='primary' tabIndex={isOpened ? 0 : -1 }>Отправить</Button>
+                    <Button
+                        appearance='primary'
+                        tabIndex={isOpened ? 0 : -1 }
+                        onClick={() => clearErrors()}
+                    >Отправить</Button>
                     <span
                         className={styles.info}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
                 </div>
             </div>
             {isSuccess && <div className={cn(styles.panel, styles.success)}>
                 <div className={styles.successTitle}>Ваш отзыв отправлен</div>
-                <div>
+                <div role='alert'>
                     Спасибо, Ваш отзыв будет опубликован после проверки.
                 </div>
-                <CloseIcon className={styles.close} onClick={() => setIsSuccess(false)}/>
+                <button
+                    className={styles.close}
+                    onClick={() => setIsSuccess(false)}
+                    tabIndex={ isSuccess ? 0 : -1 }
+                    aria-label='Закрыть оповещение'
+                    onKeyDown={ handleCloseNotification }
+                >
+                    <CloseIcon />
+                </button>
             </div>}
-            {error && <div className={cn(styles.panel, styles.error)}>
+            {error && <div className={cn(styles.panel, styles.error)} role='alert'>
                 Что-то пошло не так, попробуйте обновить страницу
-                <CloseIcon className={styles.close} onClick={() => setError(undefined)} />
+                <button
+                    className={styles.close}
+                    onClick={() => setError(undefined)}
+                    tabIndex={ error ? 0 : -1 }
+                    aria-label='Закрыть оповещение'
+                    onKeyDown={ handleCloseNotification }
+                >
+                    <CloseIcon />
+                </button>
             </div>}
         </form>
     );

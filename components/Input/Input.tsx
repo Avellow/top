@@ -18,7 +18,7 @@ export const Input = forwardRef((
             style={{ padding: customPadding ? customPadding : '7px 12px' }}
             {...props}
         />
-        {error && <span className={styles.errorMessage}>{error.message}</span>}
+        {error && <span role='alert' className={styles.errorMessage}>{error.message}</span>}
       </div>
   );
 });

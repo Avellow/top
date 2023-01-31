@@ -110,6 +110,7 @@ export const Product = motion(forwardRef((
                         arrow={ isReviewOpened ? 'down': 'right' }
                         className={styles.reviewButton}
                         onClick={ handleReviewButtonClick }
+                        aria-expanded={ isReviewOpened }
                     >Читать отзывы</Button>
                 </div>
             </Card>
