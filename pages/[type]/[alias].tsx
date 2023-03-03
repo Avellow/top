@@ -7,16 +7,25 @@ import { ParsedUrlQuery } from 'querystring';
 import { ProductModel } from '../../interfaces/product.interface';
 import { firstLevelMenu } from '../../helpers/helpers';
 import { TopPageComponent } from '../../page-components';
-import {API} from "../../helpers/api";
+import { API } from "../../helpers/api";
+import Head from 'next/head';
 
 function TopPage({ firstCategory, page, products }: TopPageProps): JSX.Element {
 
   return (
-    <TopPageComponent
-      firstCategory={firstCategory}
-      page={page}
-      products={products}
-    />
+    <>
+      <Head>
+        <title>{page.metaTitle}</title>
+        <meta name='description' content={page.metaDescription} />
+        <meta property='og:title' content={page.metaTitle} />
+        <meta property='og:description' content={page.metaDescription} />
+      </Head>
+      <TopPageComponent
+        firstCategory={firstCategory}
+        page={page}
+        products={products}
+      />
+    </>
   );
 }
 
@@ -71,8 +80,8 @@ export const getStaticProps: GetStaticProps<TopPageProps> = async ({ params }: G
     const { data: page } = await axios.get<TopPageModel>(API.topPage.byAlias + params.alias);
 
     const { data: products } = await axios.post<ProductModel[]>(API.product.find, {
-        category: page.category,
-        limit: 10
+      category: page.category,
+      limit: 10
     });
 
     return {
