@@ -80,9 +80,10 @@
 	}
 
 	.salary > div {
+		padding-bottom: 20px;
+
 		border-right: none;
 		border-bottom: 1px solid var(--grey-light);
-		padding-bottom: 20px;
 	}
 
 	.salary > div:last-child {

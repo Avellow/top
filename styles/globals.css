@@ -2,6 +2,7 @@ html,
 body {
 	margin: 0;
 	padding: 0;
+
 	color: var(--black);
 
 	font-family: var(--font-family);
@@ -14,10 +15,12 @@ a {
 }
 
 .visuallyHidden {
+	position: absolute;
+
+	overflow: hidden;
+
 	width: 0;
 	height: 0;
-	overflow: hidden;
-	position: absolute;
 }
 
 * {
@@ -26,15 +29,15 @@ a {
 
 :root {
 	--black: #3B434E;
-	--primary: #724ffa;
-	--primary-hover: #6344df;
+	--primary: #724FFA;
+	--primary-hover: #6344DF;
 	--grey: #707070;
 	--grey-light: #EBEBEB;
-	--grey-dark: #6c7077;
-	--green: #007b48;
+	--grey-dark: #6C7077;
+	--green: #007B48;
 	--green-light: #C8F8E4;
 	--red: #FC836D;
-	--red-light: #ffb2a4;
+	--red-light: #FFB2A4;
 	--white: white;
 	--font-family: "Noto Sans", sans-serif;
 }
