@@ -1,75 +1,87 @@
 .firstLevel {
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 20px;
-  align-items: center;
+	display: grid;
+	align-items: center;
 
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.38;
+	margin-top: 20px;
 
-  color: var(--grey);
+	color: var(--grey);
 
-  margin-top: 20px;
+	font-size: 18px;
+
+	font-weight: 500;
+	line-height: 1.38;
+	grid-template-columns: 24px 1fr;
+	gap: 20px;
+}
+
+.firstLevelList {
+	padding: 0;
+
+	list-style: none;
 }
 
 .firstLevelActive,
 .firstLevel:hover {
-  color: var(--primary);
+	color: var(--primary);
 }
 
 .firstLevelActive svg,
 .firstLevel:hover svg {
-  fill: var(--primary);
+	fill: var(--primary);
 }
 
 .secondLevel {
-  margin-bottom: 13px;
+	margin-bottom: 13px;
+	padding: 0;
 
-  cursor: pointer;
-  text-transform: uppercase;
+	cursor: pointer;
+	text-transform: uppercase;
 
-  color: var(--grey-dark);
+	color: var(--grey-dark);
+	border: none;
 
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 1.33;
+	background: none;
+
+	font-size: 12px;
+
+	font-weight: 300;
 }
 
 .secondBlock {
-  margin-left: 12px;
-  padding-left: 32px;
-  border-left: 1px solid #dfdfdf;
-  margin-top: 14px;
-  padding-top: 6px;
+	margin-top: 14px;
+	margin-left: 12px;
+	padding: 0 0 0 32px;
+	padding-top: 6px;
+
+	list-style: none;
+
+	border-left: 1px solid #DFDFDF;
 }
 
 .secondLevelBlock {
-  display: none;
-}
+	overflow: hidden;
 
-.secondLevelBlockOpened {
-  display: block;
-}
+	padding: 0;
 
-.secondLevelBlockOpened:last-child {
-  margin-bottom: 20px;
+	list-style: none;
 }
 
 .thirdLevel {
-  display: block;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.4;
+	display: block;
 
-  color: var(--grey-dark);
+	margin-bottom: 10px;
 
-  cursor: pointer;
+	cursor: pointer;
 
-  margin-bottom: 10px;
+	color: var(--grey-dark);
+
+	outline-offset: -1px;
+
+	font-size: 14px;
+	font-weight: 500;
 }
 
 .thirdLevelActive,
 .thirdLevel:hover {
-  color: var(--primary);
+	color: var(--primary);
 }

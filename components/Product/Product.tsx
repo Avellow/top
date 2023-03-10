@@ -8,11 +8,15 @@ import {Button} from "../Button/Button";
 import {declOfNum, priceRu} from "../../helpers/helpers";
 import {Divider} from "../Divider/Divider";
 import Image from 'next/image';
-import {useRef, useState} from "react";
+import {ForwardedRef, forwardRef, useRef, useState} from "react";
 import {Review} from "../Review/Review";
 import {ReviewForm} from "../ReviewForm/ReviewForm";
+import { motion } from 'framer-motion';
 
-export const Product = ({product, className, ...props}: ProductProps): JSX.Element => {
+export const Product = motion(forwardRef((
+    { product, className, ...props }: ProductProps,
+    ref: ForwardedRef<HTMLDivElement>
+): JSX.Element => {
     const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
 
     const reviewRef = useRef<HTMLDivElement>(null);
@@ -27,10 +31,16 @@ export const Product = ({product, className, ...props}: ProductProps): JSX.Eleme
             behavior: 'smooth',
             block: 'start'
         });
+        reviewRef.current?.focus();
+    };
+
+    const variants = {
+        visible: { opacity: 1, height: 'auto' },
+        hidden: { opacity: 0, height: 0, overflow: 'hidden' }
     };
 
     return (
-        <div className={className} {...props}>
+        <div className={className} ref={ref} {...props}>
             <Card className={styles.product}>
                 <div className={styles.logo}>
                     <Image
@@ -42,26 +52,34 @@ export const Product = ({product, className, ...props}: ProductProps): JSX.Eleme
                 </div>
                 <div className={styles.title}>{product.title}</div>
                 <div className={styles.price}>
-                    {priceRu(product.price)}
+                    <span>
+                        <span className='visuallyHidden'>Цена</span>
+                        {priceRu(product.price)}
+                    </span>
                     {product.oldPrice && (
                         <Tag color='green' className={styles.oldPrice}>
+                            <span className='visuallyHidden'>Скидка</span>
                             {priceRu(product.price - product.oldPrice)}
                         </Tag>
                     )}
                 </div>
                 <div className={styles.credit}>
+                    <span className='visuallyHidden'>Кредит</span>
                     {priceRu(product.credit)}/<span className={styles.month}>мес</span>
                 </div>
-                <div className={styles.rating}><Rating rating={product.reviewAvg ?? product.initialRating}/></div>
+                <div className={styles.rating}>
+                    <span className='visuallyHidden'>{'рейтинг' + (product.reviewAvg ?? product.initialRating)}</span>
+                    <Rating rating={product.reviewAvg ?? product.initialRating}/>
+                </div>
                 <div className={styles.tags}>
                     {product.categories.map(c => (<Tag className={styles.category} color='ghost' key={c}>{c}</Tag>))}
                 </div>
-                <div className={styles.priceTitle}>цена</div>
-                <div className={styles.creditTitle}>кредит</div>
+                <div className={styles.priceTitle} aria-hidden="true">цена</div>
+                <div className={styles.creditTitle} aria-hidden="true">кредит</div>
                 <div className={styles.rateTitle}>
-                    <span className={styles.reviewLink} onClick={scrollToReview}>
+                    <a href='#ref' className={styles.reviewLink} onClick={scrollToReview}>
                         {product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
-                    </span>
+                    </a>
                 </div>
                 <Divider className={styles.hr}/>
                 <div className={styles.description}>{product.description}</div>
@@ -92,23 +110,30 @@ export const Product = ({product, className, ...props}: ProductProps): JSX.Eleme
                         arrow={ isReviewOpened ? 'down': 'right' }
                         className={styles.reviewButton}
                         onClick={ handleReviewButtonClick }
+                        aria-expanded={ isReviewOpened }
                     >Читать отзывы</Button>
                 </div>
             </Card>
-            <Card color='blue' className={cn(styles.reviews, {
-                [styles.opened]: isReviewOpened,
-                [styles.closed]: !isReviewOpened
-            })}
-                ref={reviewRef}
+            <motion.div
+                animate={isReviewOpened ? 'visible' : 'hidden'}
+                variants={variants}
+                initial='hidden'
             >
-                { product.reviews.map(r => (
-                    <div key={r._id}>
-                        <Review review={r} />
-                        <Divider />
-                    </div>
-                ))}
-                <ReviewForm productId={product._id} />
-            </Card>
+                <Card
+                    color='blue'
+                    className={cn(styles.reviews)}
+                    ref={reviewRef}
+                    tabIndex={ isReviewOpened ? 0 : -1 }
+                >
+                    {product.reviews.map(r => (
+                        <div key={r._id}>
+                            <Review review={r}/>
+                            <Divider/>
+                        </div>
+                    ))}
+                    <ReviewForm productId={product._id} isOpened={isReviewOpened} />
+                </Card>
+            </motion.div>
         </div>
     );
-};
+}));

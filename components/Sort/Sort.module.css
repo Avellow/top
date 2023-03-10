@@ -20,16 +20,36 @@
 	gap: 40px;
 }
 
-.sort span {
+.sort button {
 	display: grid;
-	gap: 8px;
-	grid-template-columns: 20px 1fr;
-
 	align-items: center;
 
 	cursor: pointer;
+
+	border: none;
+	outline: 1px;
+	background: none;
+
+	font-size: 16px;
+	line-height: 22px;
+	gap: 8px;
+	grid-template-columns: 20px 1fr;
 }
 
-.sort span:not(.active) {
+.sort button:not(.active) {
 	grid-template-columns: 1fr;
+}
+
+.sort button:focus {
+	outline: 1px solid var(--primary);
+}
+
+.sortName {
+	display: none;
+}
+
+@media screen and (max-width: 480px) {
+	.sort {
+		gap: 20px;
+	}
 }

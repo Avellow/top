@@ -4,7 +4,7 @@ import cn from 'classnames';
 import {ForwardedRef, forwardRef} from "react";
 
 export const Input = forwardRef((
-    {className, error, ...props}: InputProps,
+    {className, error, customPadding, ...props}: InputProps,
     ref: ForwardedRef<HTMLInputElement>
 ): JSX.Element => {
 
@@ -15,9 +15,10 @@ export const Input = forwardRef((
             className={cn(styles.input, {
               [styles.error]: error,
             })}
+            style={{ padding: customPadding ? customPadding : '7px 12px' }}
             {...props}
         />
-        {error && <span className={styles.errorMessage}>{error.message}</span>}
+        {error && <span role='alert' className={styles.errorMessage}>{error.message}</span>}
       </div>
   );
 });
