@@ -1,27 +1,27 @@
 .advantages {
-	padding: 45px 0 30px;
+  padding: 45px 0 30px;
 }
 
 .list {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 
-	list-style: none;
+  list-style: none;
 }
 
 .advantage {
-	display: grid;
-	grid-template-columns: 50px 1fr;
+  display: grid;
+  grid-template-columns: 50px 1fr;
 
-	align-items: center;
-	gap: 15px 40px;
+  align-items: center;
+  gap: 15px 40px;
 
-	margin-bottom: 38px;
+  margin-bottom: 38px;
 }
 
 .border {
-	height: 100%;
-	margin: auto;
+  height: 100%;
+  margin: auto;
 
-	border-right: 1px solid #D2D2D2;
+  border-right: 1px solid #d2d2d2;
 }
